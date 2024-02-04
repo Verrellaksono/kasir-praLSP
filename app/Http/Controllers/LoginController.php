@@ -26,11 +26,7 @@ class LoginController extends Controller
 
         if ($user) {
             auth()->login($user);
-            if ($user->status === 'Administrator') {
-                return redirect()->route('admin.barang');
-            } elseif ($user->status === 'Petugas') {
-                return redirect()->route('dashboard-petugas');
-            }
+            return redirect()->route('produk.index');
         } else {
             return back()->withErrors(['login' => 'Username atau password salah']);
         }

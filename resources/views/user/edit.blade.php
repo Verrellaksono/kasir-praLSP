@@ -1,6 +1,6 @@
 @extends('template.master')
 
-@section('title', 'Admin | Edit User')
+@section('title', 'Kasir | Edit User')
 
 @section('content')
     <a href="{{ route('admin.user') }}" class="btn btn-primary mb-3 me-3"><i class="fa fa-angle-left"></i>

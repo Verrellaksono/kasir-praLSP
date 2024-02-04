@@ -1,15 +1,15 @@
 @extends('template.master')
 
-@section('title', 'Admin | Edit Produk')
+@section('title', 'Kasir | Edit Produk')
 
 @section('content')
-    <a href="{{ route('admin.barang') }}" class="btn btn-primary mb-3 me-3"><i class="fa fa-angle-left"></i>
+    <a href="{{ route('produk.index') }}" class="btn btn-primary mb-3 me-3"><i class="fa fa-angle-left"></i>
         Kembali</a>
-    <h4>Edit Barang</h4>
+    <h4>Edit Produk</h4>
     <div class="card card-body">
         <div class="table-responsive">
             <table class="table table-striped">
-                <form action="{{ route('admin.barang.update', ['id' => $produk->id]) }}" method="POST">
+                <form action="{{ route('produk.update', ['produk' => $produk['id']]) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <tr>

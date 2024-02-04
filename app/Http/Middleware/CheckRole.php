@@ -32,24 +32,23 @@ class CheckRole
         switch ($role) {
             case 'Administrator':
                 $allowedRoutes = [
-                    'admin.barang',
-                    'admin.barang.insert',
-                    'admin.barang.hapus',
-                    'admin.barang.edit',
-                    'admin.barang.update',
-                    'admin.user',
-                    'admin.user.insert',
-                    'admin.user.hapus',
-                    'admin.user.edit',
-                    'admin.user.update'
-                ]; // Tambahkan rute-rute yang diizinkan untuk Administrator
+                    'user.index',
+                    'user.store',
+                    'user.edit',
+                    'user.update',
+                    'user.destroy',
+                ];
                 break;
 
             case 'Petugas':
                 $allowedRoutes = [
-                    'dashboard-petugas',
-
-                ]; // Tambahkan rute-rute yang diizinkan untuk Petugas
+                    'transaksi.index',
+                    'transaksi.store',
+                    'transaksi.edit',
+                    'transaksi.update',
+                    'transaksi.destroy',
+                    'transaksi.add-to-cart',
+                ];
                 break;
         }
 

@@ -27,6 +27,9 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+    {{-- Bootstrap-icons --}}
+    <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.css') }}">
+
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">

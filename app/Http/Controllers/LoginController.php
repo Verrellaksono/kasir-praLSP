@@ -20,11 +20,11 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('username', 'password');
+        $user = User::where('username', $request->username)
+            ->where('password', $request->password)
+            ->first();
 
-        $user = User::where('username', $credentials['username'])->first();
-
-        if ($user && Hash::check($credentials['password'], $user->password)) {
+        if ($user) {
             auth()->login($user);
             if ($user->status === 'Administrator') {
                 return redirect()->route('admin.barang');

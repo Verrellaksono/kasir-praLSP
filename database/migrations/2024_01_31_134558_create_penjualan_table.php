@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
-            $table->date('tanggalPenjualan');
+            $table->dateTime('tanggalPenjualan');
             $table->integer('totalHarga');
-            $table->foreignId('pelanggan_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('pelanggan_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
             $table->timestamps();
         });
     }

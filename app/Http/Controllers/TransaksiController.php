@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Produk;
 use App\Models\Penjualan;
 use App\Models\DetailPenjualan;
+use App\Models\DetailTransaksi;
+use App\Models\Pelanggan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Monolog\Handler\IFTTTHandler;
 
 class TransaksiController extends Controller
 {
@@ -17,23 +20,34 @@ class TransaksiController extends Controller
     public function index()
     {
         $produks = Produk::all();
-        return view('transaksi.index', compact('produks'));
+        $pelanggans = Pelanggan::all();
+        $penjualans = Penjualan::with('user', 'pelanggan', 'detailPenjualan.produk')->orderBy('created_at', 'desc')->get();
+        $data = ([
+            'produks' => $produks,
+            'pelanggans' => $pelanggans,
+            'penjualans' => $penjualans,
+        ]);
+        return view('transaksi.index', $data);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        $produks = Produk::all();
+        $data = ([
+            'tanggalPenjualan' => now()->timezone('Asia/Jakarta'),
+            'totalHarga' => 0,
+            'pelanggan_id' => $request->pelanggan_id,
+            'user_id' => auth()->user()->id,
+        ]);
+        $transaksi = Penjualan::create($data);
+        return redirect('transaksi/' . $transaksi->id . '/edit');
+    }
 
-        $produk_id = request('produk_id');
-        $p_detail = Produk::find($produk_id);
-        $data = [
-            'produks' => $produks,
-            'p_detail' => $p_detail,
-        ];
-        return view('transaksi.tambah', $data);
+    protected function addTransaksi()
+    {
+        //
     }
 
     /**
@@ -41,50 +55,7 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input form, sesuaikan dengan kebutuhan aplikasi Anda
-        $request->validate([
-            'bayar' => 'required|numeric|min:' . $request->total, // Memastikan pembayaran cukup
-        ]);
-
-        // Mulai transaksi database
-        DB::beginTransaction();
-
-        try {
-            // Simpan data penjualan ke tabel penjualan
-            $penjualan = new Penjualan;
-            $penjualan->tanggalPenjualan = now();
-            $penjualan->totalHarga = $request->total;
-            // $penjualan->pelanggan_id = $request->input('pelanggan_id');
-            $penjualan->user_id = auth()->user()->id;
-            $penjualan->save();
-
-            // Simpan detail transaksi ke tabel detail_penjualan
-            foreach ($request->input('produk_id') as $index => $produkId) {
-                // Tambahkan pesan log atau echo di sini untuk melihat nilai variabel
-                Log::info("Index: $index, Produk ID: $produkId");
-
-                $detailPenjualan = new DetailPenjualan;
-                $detailPenjualan->penjualan_id = $penjualan->id;
-                $detailPenjualan->produk_id = $produkId;
-                $detailPenjualan->jumlahProduk = $request->input('jumlahProduk')[$index];
-                $detailPenjualan->subtotal = $request->input('subtotal')[$index];
-                $detailPenjualan->save();
-            }
-
-            // Commit transaction
-            DB::commit();
-
-            // Redirect or return success response
-            return redirect()->route('nama_route_yang_diinginkan')
-                ->with('success', 'Transaksi berhasil disimpan');
-        } catch (\Exception $e) {
-            // Log error and rollback transaction
-            Log::error("Transaksi gagal: " . $e->getMessage());
-            DB::rollback();
-
-            // Redirect or return error response
-            return redirect()->back()->with('error', 'Transaksi gagal: ' . $e->getMessage());
-        }
+        //
     }
 
     /**
@@ -100,7 +71,52 @@ class TransaksiController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $produks = Produk::all();
+        $pelanggan = Pelanggan::all();
+
+        $produk_id = request('produk_id');
+        $p_detail = Produk::find($produk_id);
+
+        $transaksi_detail = DetailPenjualan::with('produk')->wherePenjualanId($id)->get();
+        // dd($transaksi_detail);
+
+        $act = request('act');
+        $qty = request('qty');
+        if ($act == 'min') {
+            if ($qty <= 1) {
+                $qty = 1;
+            } else {
+                $qty = $qty - 1;
+            }
+        } else {
+            $qty = $qty + 1;
+        }
+
+        $subtotal = 0;
+        if ($p_detail) {
+            $subtotal = $qty * $p_detail->harga;
+        }
+
+        $transaksi = Penjualan::find($id);
+
+        $pembayaran = request('dibayarkan');
+        if ($pembayaran) {
+            $kembalian = $pembayaran - $transaksi->totalHarga;
+        } else {
+            $kembalian = 0;
+        }
+
+        $data = [
+            'produks' => $produks,
+            'pelanggans' => $pelanggan,
+            'p_detail' => $p_detail,
+            'qty' => $qty,
+            'subtotal' => $subtotal,
+            'transaksi_detail' => $transaksi_detail,
+            'transaksi' => $transaksi,
+            'kembalian' => $kembalian,
+        ];
+        return view('transaksi.tambah', $data);
     }
 
     /**

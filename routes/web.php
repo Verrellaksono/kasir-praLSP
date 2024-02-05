@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\DetailTransaksiController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
@@ -39,11 +40,8 @@ Route::middleware(['auth', 'checkRole:Administrator'])->group(function () {
 // Petugas
 Route::middleware(['auth', 'checkRole:Petugas'])->group(function () {
     Route::resource('transaksi', TransaksiController::class);
-    Route::post('transaksi/add-to-cart', [TransaksiController::class, 'addToCart'])->name('transaksi.add-to-cart');
+    // Route::post('transaksi/add-to-cart', [TransaksiController::class, 'addToCart'])->name('transaksi.add-to-cart');
+    Route::get('transaksi/{id}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
+    Route::post('detail-transaksi/create', [DetailTransaksiController::class, 'create'])->name('detail-transaksi.create');
+    Route::get('detail-transaksi/destroy', [DetailTransaksiController::class, 'destroy'])->name('detail-transaksi.destroy');
 });
-
-
-// Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-// Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
-
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

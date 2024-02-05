@@ -48,7 +48,8 @@ class CheckRole
                     'transaksi.edit',
                     'transaksi.update',
                     'transaksi.destroy',
-                    'transaksi.add-to-cart',
+                    'detail-transaksi.create',
+                    'detail-transaksi.destroy',
                 ];
                 break;
         }

@@ -3,18 +3,41 @@
 @section('title', 'Kasir | Transaksi')
 
 @section('content')
-    <a href="{{ route('transaksi.create') }}" class="btn btn-primary">Tambah</a>
     <div class="row">
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div
                         class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between">
-                        <h6 class="text-white text-capitalize ps-3">Menu</h6>
+                        <h6 class="text-white text-capitalize ps-3">Laporan Transaksi</h6>
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive p-0 table-menu" id="pesanan">
+                    <div class="row mt-2">
+                        <form action="{{ route('transaksi.create') }}" method="GET">
+                            <div class="col-md-10 d-flex">
+                                <div class="col-md-2 d-flex align-items-center">
+                                    <label for="" class="m-0 text-bold">Nama Pelanggan : </label>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-center">
+                                    <select name="pelanggan_id" id="" class="form-control border ps-2">
+                                        @foreach ($pelanggans as $pelanggan)
+                                            <option value="{{ $pelanggan->id }}"
+                                                @if ($loop->first) selected @endif>
+                                                {{ $pelanggan->namaPelanggan }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-4 ms-2 d-flex align-items-center">
+                                    <button type="submit" class="btn btn-primary m-0"><i class="fas fa-plus"></i>
+                                        Kasir</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="table-responsive p-0" id="pesanan">
                         <!-- Trigger the modal with a button -->
                         <div class="clearfix"></div>
                         <br />
@@ -22,15 +45,20 @@
                             <thead>
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama
-                                        Produk
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Petugas
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        Stok
+                                        Pelanggan
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Produk
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subtotal
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total
+                                    </th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tanggal
                                     </th>
                                 </tr>
                             </thead>
@@ -38,30 +66,54 @@
                                 @php
                                     $counter = 1;
                                 @endphp
-                                @foreach ($produks as $produk)
+                                @if ($penjualans->isEmpty())
                                     <tr>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4">{{ $counter++ }}</td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4 nama-produk">
-                                            {{ $produk->namaProduk }}
-                                        </td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4 stok">{{ $produk->stok }}
-                                        </td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4 harga">{{ $produk->harga }}
-                                        </td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4 d-flex gap-2">
-                                            <form action="" method="post">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $produk->id }}">
-                                                <button type="submit" class="btn btn-success add-to-cart btn-sm mb-0">
-                                                    Tambah
-                                                </button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                        <td></td>
-                                        </td>
+                                        <td colspan="6" class="text-center text-secondary text-xs font-weight-bold ps-4">
+                                            Tidak ada data</td>
                                     </tr>
-                                @endforeach
+                                @else
+                                    @foreach ($penjualans as $penjualan)
+                                        <tr>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4">{{ $counter++ }}
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4 nama-produk">
+                                                @if ($penjualan->pelanggan)
+                                                    {{ $penjualan->user->username }}
+                                                @else
+                                                    Pelanggan tidak ditemukan
+                                                @endif
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4 stok">
+                                                @if ($penjualan->pelanggan)
+                                                    {{ $penjualan->pelanggan->namaPelanggan }}
+                                                @else
+                                                    Pelanggan tidak ditemukan
+                                                @endif
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4">
+                                                @foreach ($penjualan->detailPenjualan as $detail)
+                                                    {{ $detail->produk->namaProduk }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4">
+                                                @foreach ($penjualan->detailPenjualan as $detail)
+                                                    {{ $detail->jumlahProduk }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4">
+                                                @foreach ($penjualan->detailPenjualan as $detail)
+                                                    Rp. {{ $detail->subtotal }} <br>
+                                                @endforeach
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4 harga">
+                                                Rp. {{ $penjualan->totalHarga }}.00,-
+                                            </td>
+                                            <td class="text-secondary text-xs font-weight-bold ps-4 harga">
+                                                {{ $penjualan->tanggalPenjualan }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -70,166 +122,41 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12">
-            <div class="card my-4">
-                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div
-                        class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between">
-                        <h6 class="text-white text-capitalize ps-3">Pembelian</h6>
-                    </div>
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content" style=" border-radius:0px;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Penjualan</h5>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <div class="card-body">
-                    <div class="table-responsive p-0" id="pesanan">
-                        <!-- Trigger the modal with a button -->
-                        <div class="clearfix"></div>
-                        <br />
-                        <table class="table tabelPembelian align-items-center mb-0">
-                            <thead>
-                                <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama
-                                        Produk
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jumlah
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subtotal
-                                    </th>
-                                </tr>
-                            </thead>
-                            <form action="{{ route('transaksi.store') }}" method="POST" id="transaksiForm">
-                                @csrf
-                                <tbody id="cartTable">
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td><b>Total</b></td>
-                                        <td><input type="text" id="total" name="total"
-                                                class="form-control border ps-3" readonly>
-                                        </td>
-                                        <td><b>Bayar</b></td>
-                                        <td><input type="number" id="bayar" class="form-control border ps-3"
-                                                name="bayar"required></td>
-                                        <td>
-                                            <button class="btn btn-success btn-sm" data-name="{{ $produk->namaProduk }}"
-                                                data-price="{{ $produk->harga }}" data-id="{{ $produk->id }}"
-                                                data-left="{{ $produk->stok }}"> <i class="fas fa-plus"></i>
-                                                Add </button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Kembali</b></td>
-                                        <td><input type="text" id="kembalian" class="form-control border ps-3" readonly>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </form>
-                        </table>
-                    </div>
+                <div class="modal-body">
+                    <table class="table table-striped bordered">
+                        @csrf
+                        <tr>
+                            <td>Produk yang dibeli</td>
+                            <td><input type="text" placeholder="Nama Produk" required class="form-control"
+                                    name="namaProduk"></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><input type="number" placeholder="Harga" required class="form-control" name="harga">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Stok</td>
+                            <td><input type="number" required Placeholder="Stok" class="form-control" name="stok">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-blocked" data-dismiss="modal"><i
+                            class="fa fa-plus"></i> Insert
+                        Data</button>
+                    {{-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> --}}
                 </div>
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script>
-        $(document).ready(function() {
-            // Memanggil hitungTotal() saat halaman selesai dimuat
-            hitungTotal();
-
-            $('.add-to-cart').on('click', function() {
-                var barangId = $(this).data('barang-id');
-                var namaProduk = $(this).closest('tr').find('.nama-produk').text();
-                var harga = parseFloat($(this).closest('tr').find('.harga').text()); // Parse as float
-
-                // Ambil nilai counter
-                var counter = $('.tabelPembelian tbody tr').length + 1;
-
-                // Temukan tabel pembelian dan tambahkan baris baru
-                var tabelPembelian = $('.tabelPembelian tbody');
-                var newRow = '<tr>' +
-                    '<td class="text-secondary text-xs font-weight-bold ps-4">' + counter +
-                    '</td>' +
-                    '<td class="text-secondary text-xs font-weight-bold ps-4" data-name="namaProduk">' +
-                    namaProduk +
-                    '</td>' +
-                    '<td class="text-secondary text-xs font-weight-bold ps-4"><input type="number" class="form-control jumlahProduk" name="jumlahProduk" value="1" required></td>' +
-                    '<td class="text-secondary text-xs font-weight-bold ps-4 harga" data-name="harga">' +
-                    harga +
-                    '</td>' +
-                    '<td class="text-secondary text-xs font-weight-bold ps-4 subtotal" data-name="subtotal">' +
-                    harga + '</td>' +
-                    '</tr>';
-
-                tabelPembelian.append(newRow);
-
-                // Hitung total keseluruhan setelah menambahkan baris baru
-                hitungTotal();
-            });
-
-            // Menambahkan event listener untuk menghitung subtotal secara dinamis saat nilai input berubah
-            $(document).on('input', '.jumlahProduk', function() {
-                var jumlahProduk = parseInt($(this).val()) || 1;
-                var harga = parseFloat($(this).closest('tr').find('.harga').text());
-
-                // Cek apakah harga adalah NaN atau kurang dari 0, jika iya, atur ke 0
-                harga = isNaN(harga) || harga < 0 ? 0 : harga;
-
-                var subtotal = harga * jumlahProduk;
-
-                // Tampilkan subtotal, tetapi konversi ke string terlebih dahulu
-                $(this).closest('tr').find('.subtotal').text(subtotal.toString());
-
-                // Hitung total keseluruhan setelah mengubah nilai input
-                hitungTotal();
-            });
-
-            function hitungTotal() {
-                var total = 0;
-
-                // Iterasi setiap baris dan tambahkan subtotal ke total
-                $('.tabelPembelian tbody tr').each(function() {
-                    total += parseFloat($(this).find('.subtotal').text()) || 0;
-                });
-
-                // Tampilkan total pada input total
-                $('#total').val(total);
-
-                // Mengupdate nilai total pada form bayar jika ada
-                $('#bayar').attr('min', total); // Menyimpan total sebagai nilai minimum pembayaran
-            }
-
-            $('#btnBayar').on('click', function() {
-                var total = parseFloat($('#total').val());
-                var bayar = parseFloat($('#bayar').val());
-
-                if (isNaN(bayar) || bayar < total) {
-                    alert('Jumlah pembayaran tidak mencukupi.');
-                    return;
-                }
-
-                $.ajax({
-                    url: '{{ route('transaksi.store') }}',
-                    method: 'POST',
-                    data: $('#transaksiForm').serialize(),
-                    success: function(response) {
-                        // Handle successful transaction (redirect, etc.)
-                        console.log("Transaksi berhasil:", response);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle errors (display error messages, etc.)
-                        console.error("Transaksi gagal:", error);
-                    }
-                });
-            });
-        });
-    </script>
 @endsection

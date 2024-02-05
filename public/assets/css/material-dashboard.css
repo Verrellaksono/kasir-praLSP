@@ -27935,9 +27935,3 @@ pre[class*="language-"] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
-
-.table-menu {
-    height: 300px;
-    /* Ganti dengan tinggi yang diinginkan */
-    overflow-y: auto;
-}

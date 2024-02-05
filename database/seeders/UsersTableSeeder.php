@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -16,16 +17,15 @@ class UsersTableSeeder extends Seeder
         $data = [
             [
                 'username' => 'admin',
-                'password' => bcrypt('admin'),
+                'password' => 'admin',
                 'status' => 'Administrator',
             ],
             [
                 'username' => 'petugas',
-                'password' => bcrypt('petugas'),
+                'password' => 'petugas',
                 'status' => 'Petugas',
             ],
         ];
-
-        DB::table('users')->insert($data);
+        User::insert($data);
     }
 }

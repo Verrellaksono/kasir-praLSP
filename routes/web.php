@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
@@ -40,3 +41,9 @@ Route::middleware(['auth', 'checkRole:Petugas'])->group(function () {
     Route::resource('transaksi', TransaksiController::class);
     Route::post('transaksi/add-to-cart', [TransaksiController::class, 'addToCart'])->name('transaksi.add-to-cart');
 });
+
+
+// Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+// Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');

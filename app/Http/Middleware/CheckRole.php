@@ -44,6 +44,7 @@ class CheckRole
                 $allowedRoutes = [
                     'transaksi.index',
                     'transaksi.store',
+                    'transaksi.create',
                     'transaksi.edit',
                     'transaksi.update',
                     'transaksi.destroy',

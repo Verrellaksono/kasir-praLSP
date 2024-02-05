@@ -3,6 +3,7 @@
 @section('title', 'Kasir | Transaksi')
 
 @section('content')
+    <a href="{{ route('transaksi.create') }}" class="btn btn-primary">Tambah</a>
     <div class="row">
         <div class="col-12">
             <div class="card my-4">
@@ -48,10 +49,13 @@
                                         <td class="text-secondary text-xs font-weight-bold ps-4 harga">{{ $produk->harga }}
                                         </td>
                                         <td class="text-secondary text-xs font-weight-bold ps-4 d-flex gap-2">
-                                            <button type="button" class="btn btn-success add-to-cart btn-sm mb-0"
-                                                data-barang-id="{{ $produk->id }}">
-                                                Tambah
-                                            </button>
+                                            <form action="" method="post">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $produk->id }}">
+                                                <button type="submit" class="btn btn-success add-to-cart btn-sm mb-0">
+                                                    Tambah
+                                                </button>
+                                            </form>
                                         </td>
                                         <td>
                                         <td></td>
@@ -97,9 +101,13 @@
                             </thead>
                             <form action="{{ route('transaksi.store') }}" method="POST" id="transaksiForm">
                                 @csrf
-
-
-                                <tbody></tbody>
+                                <tbody id="cartTable">
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
                                 <tfoot>
                                     <tr>
                                         <td><b>Total</b></td>
@@ -109,8 +117,11 @@
                                         <td><b>Bayar</b></td>
                                         <td><input type="number" id="bayar" class="form-control border ps-3"
                                                 name="bayar"required></td>
-                                        <td><button type="button" class="btn btn-primary mt-3"
-                                                id="btnBayar">Bayar</button>
+                                        <td>
+                                            <button class="btn btn-success btn-sm" data-name="{{ $produk->namaProduk }}"
+                                                data-price="{{ $produk->harga }}" data-id="{{ $produk->id }}"
+                                                data-left="{{ $produk->stok }}"> <i class="fas fa-plus"></i>
+                                                Add </button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -218,11 +229,6 @@
                         console.error("Transaksi gagal:", error);
                     }
                 });
-            });
-
-            $('#bayar').on('click', function() {
-                console.log('Button Bayar Clicked');
-                // ... (lanjutan kode)
             });
         });
     </script>

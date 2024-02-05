@@ -20,26 +20,20 @@ class TransaksiController extends Controller
         return view('transaksi.index', compact('produks'));
     }
 
-    public function addToCart(Request $request)
-    {
-        // Proses penambahan barang ke tabel pembelian
-        // ...
-
-        // Contoh:
-        $barangId = $request->input('barang_id');
-        $jumlah = $request->input('jumlah');
-
-
-        return response()->json();
-    }
-
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        //
+        $produks = Produk::all();
+
+        $produk_id = request('produk_id');
+        $p_detail = Produk::find($produk_id);
+        $data = [
+            'produks' => $produks,
+            'p_detail' => $p_detail,
+        ];
+        return view('transaksi.tambah', $data);
     }
 
     /**

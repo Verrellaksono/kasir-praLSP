@@ -36,7 +36,7 @@ class TransaksiController extends Controller
     public function create(Request $request)
     {
         $data = ([
-            'tanggalPenjualan' => now()->timezone('Asia/Jakarta'),
+            'tanggalPenjualan' => now(),
             'totalHarga' => 0,
             'pelanggan_id' => $request->pelanggan_id,
             'user_id' => auth()->user()->id,
@@ -116,7 +116,7 @@ class TransaksiController extends Controller
             'transaksi' => $transaksi,
             'kembalian' => $kembalian,
         ];
-        return view('transaksi.tambah', $data);
+        return view('transaksi.tambah', $data)->with('success', 'Data produk berhasil diupdate');
     }
 
     /**

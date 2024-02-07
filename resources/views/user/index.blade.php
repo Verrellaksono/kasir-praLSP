@@ -3,6 +3,20 @@
 @section('title', 'Kasir | Data User')
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
+            <strong>{{ session('success') }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <h6 class="alert alert-danger text-white" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </h6>
+    @endif
+
     {{-- Table User --}}
     <div class="row">
         <div class="col-12">

@@ -160,3 +160,16 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+    <script>
+        $(document).ready(function() {
+            $('#dt').DataTable({
+                dom: 'Bfrtip',
+                buttons: [
+                    'print'
+                ]
+            });
+        });
+    </script>
+@endsection

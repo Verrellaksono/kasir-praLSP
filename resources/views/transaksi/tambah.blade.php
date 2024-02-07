@@ -119,7 +119,6 @@
                             </tr>
                         @endforeach
                     </table>
-                    <a href="" class="btn btn-primary">Selesai</a>
                 </div>
             </div>
         </div>

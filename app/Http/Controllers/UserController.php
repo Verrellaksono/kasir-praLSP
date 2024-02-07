@@ -84,7 +84,6 @@ class UserController extends Controller
                 'password' => $request->password,
                 'status' => $request->status,
             ]);
-
             return redirect()->route('user.index')->with('success', 'Data user berhasil diperbarui');
         } else {
             return redirect()->route('user.index')->with('error', 'User tidak ditemukan');
@@ -99,9 +98,5 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
         return redirect()->route('user.index')->with('success', 'Data user berhasil dihapus');
-        // if ($user) {
-        // } else {
-        //     return redirect()->route('user.index')->with('error', 'User tidak ditemukan');
-        // }
     }
 }

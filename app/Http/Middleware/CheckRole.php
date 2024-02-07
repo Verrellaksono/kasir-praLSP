@@ -48,6 +48,11 @@ class CheckRole
                     'transaksi.edit',
                     'transaksi.update',
                     'transaksi.destroy',
+                    'pelanggan.index',
+                    'pelanggan.store',
+                    'pelanggan.edit',
+                    'pelanggan.update',
+                    'pelanggan.destroy',
                     'detail-transaksi.create',
                     'detail-transaksi.destroy',
                 ];

@@ -3,13 +3,13 @@
 @section('title', 'Kasir | Edit User')
 
 @section('content')
-    <a href="{{ route('admin.user') }}" class="btn btn-primary mb-3 me-3"><i class="fa fa-angle-left"></i>
+    <a href="{{ route('user.index') }}" class="btn btn-primary mb-3 me-3"><i class="fa fa-angle-left"></i>
         Kembali</a>
     <h4>Edit User</h4>
     <div class="card card-body">
         <div class="table-responsive">
             <table class="table table-striped">
-                <form action="{{ route('admin.user.update', ['id' => $user->id]) }}" method="POST">
+                <form action="{{ route('user.update', ['user' => $user['id']]) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <tr>

@@ -1,19 +1,17 @@
 @extends('template.master')
 
-@section('title', 'Kasir | Data Produk')
+@section('title', 'Kasir | Data Pelanggan')
 
 @section('content')
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show text-white" role="alert">
-            <strong>{{ session('success') }}</strong>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <h6 class="alert alert-success text-white">
+            {{ session('success') }}
+        </h6>
     @endif
 
     @if (session('error'))
-        <h6 class="alert alert-danger text-white" role="alert">
+        <h6 class="alert alert-danger text-white">
             {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </h6>
     @endif
 
@@ -23,7 +21,7 @@
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div
                         class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between">
-                        <h6 class="text-white text-capitalize ps-3">Produk</h6>
+                        <h6 class="text-white text-capitalize ps-3">Pelanggan</h6>
                     </div>
                 </div>
                 <div class="card-body">
@@ -31,7 +29,7 @@
                         <!-- Trigger the modal with a button -->
                         <button type="button" class="btn btn-primary btn-md mr-2" data-toggle="modal"
                             data-target="#myModal">
-                            <i class="fa fa-plus"></i> Insert Data</button>
+                            <i class="fa fa-plus"></i> Data Pelanggan</button>
                         {{-- <a href="index.php?menu=barang" class="btn btn-success btn-md">
                             <i class="fa fa-refresh"></i> Refresh Data</a> --}}
                         <div class="clearfix"></div>
@@ -41,10 +39,10 @@
                                 <tr>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama
-                                        Produk</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Harga
+                                        Pelanggan</th>
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Alamat
                                     </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stok
+                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No. Telp
                                     </th>
                                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Aksi
                                     </th>
@@ -54,18 +52,21 @@
                                 @php
                                     $counter = 1;
                                 @endphp
-                                @foreach ($produks as $produk)
+                                @foreach ($pelanggans as $pelanggan)
                                     <tr>
                                         <td class="text-secondary text-xs font-weight-bold ps-4">{{ $counter++ }}</td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4">{{ $produk->namaProduk }}
+                                        <td class="text-secondary text-xs font-weight-bold ps-4">
+                                            {{ $pelanggan->namaPelanggan }}
                                         </td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4">{{ $produk->harga }}</td>
-                                        <td class="text-secondary text-xs font-weight-bold ps-4">{{ $produk->stok }}</td>
+                                        <td class="text-secondary text-xs font-weight-bold ps-4">{{ $pelanggan->alamat }}
+                                        </td>
+                                        <td class="text-secondary text-xs font-weight-bold ps-4">{{ $pelanggan->noTelp }}
+                                        </td>
                                         <td class="text-secondary text-xs font-weight-bold ps-4 d-flex gap-2">
-                                            <a href="{{ route('produk.edit', $produk['id']) }}"
+                                            <a href="{{ route('pelanggan.edit', $pelanggan['id']) }}"
                                                 class="btn btn-warning btn-sm mb-0">Edit</a>
-
-                                            <form action="{{ route('produk.destroy', ['produk' => $produk['id']]) }}"
+                                            <form
+                                                action="{{ route('pelanggan.destroy', ['pelanggan' => $pelanggan['id']]) }}"
                                                 method="post">
                                                 @csrf
                                                 @method('DELETE')
@@ -88,26 +89,27 @@
             <!-- Modal content-->
             <div class="modal-content" style=" border-radius:0px;">
                 <div class="modal-header">
-                    <h5 class="modal-title"><i class="fa fa-plus"></i>Tambah Produk</h5>
+                    <h5 class="modal-title"><i class="fa fa-plus"></i>Data Pelanggan</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form action="{{ route('produk.store') }}" method="POST">
+                <form action="{{ route('pelanggan.store') }}" method="POST">
                     <div class="modal-body">
                         <table class="table table-striped bordered">
                             @csrf
                             <tr>
-                                <td>Nama Produk</td>
-                                <td><input type="text" placeholder="Nama Produk" required class="form-control"
-                                        name="namaProduk"></td>
+                                <td>Nama Pelanggan</td>
+                                <td><input type="text" placeholder="Nama Pelanggan" required class="form-control"
+                                        name="namaPelanggan"></td>
                             </tr>
                             <tr>
-                                <td>Harga</td>
-                                <td><input type="number" placeholder="Harga" required class="form-control" name="harga">
+                                <td>Alamat</td>
+                                <td><input type="text" placeholder="Alamat" required class="form-control" name="alamat">
                                 </td>
                             </tr>
                             <tr>
-                                <td>Stok</td>
-                                <td><input type="number" required Placeholder="Stok" class="form-control" name="stok">
+                                <td>No. Telp</td>
+                                <td><input type="text" required Placeholder="Nomor Telpon" class="form-control"
+                                        name="noTelp">
                                 </td>
                             </tr>
                         </table>

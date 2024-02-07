@@ -17,7 +17,7 @@
         <ul class="navbar-nav">
             <!-- Produk -->
             <li class="nav-item">
-                <a class="nav-link {{ request()->route()->getName() == 'produk.index'? 'active bg-gradient-primary': '' }}"
+                <a class="nav-link {{ request()->route()->getName() == 'produk.index' ? 'active bg-gradient-primary' : '' }}"
                     href="{{ route('produk.index') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">view_in_ar</i>
@@ -31,7 +31,7 @@
             @if (auth()->check() && auth()->user()->status === 'Administrator')
                 {{-- Account --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->route()->getName() == 'user.index'? 'active bg-gradient-primary': '' }}"
+                    <a class="nav-link {{ request()->route()->getName() == 'user.index' ? 'active bg-gradient-primary' : '' }}"
                         href="{{ route('user.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">person</i>
@@ -44,9 +44,21 @@
 
             {{-- Petugas Only --}}
             @if (auth()->check() && auth()->user()->status === 'Petugas')
+                {{-- Pelanggan --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->route()->getName() == 'pelanggan.index' ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ route('pelanggan.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">person</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Pelanggan</span>
+                    </a>
+                </li>
+
                 {{-- Transaksi --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->route()->getName() == 'transaksi.index'? 'active bg-gradient-primary': '' }}"
+                    <a class="nav-link {{ request()->route()->getName() == 'transaksi.index' ? 'active bg-gradient-primary' : '' }}"
                         href="{{ route('transaksi.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <i class="material-icons opacity-10">receipt_long</i>

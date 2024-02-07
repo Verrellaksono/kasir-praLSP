@@ -5,6 +5,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\DetailTransaksiController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
@@ -40,7 +41,7 @@ Route::middleware(['auth', 'checkRole:Administrator'])->group(function () {
 // Petugas
 Route::middleware(['auth', 'checkRole:Petugas'])->group(function () {
     Route::resource('transaksi', TransaksiController::class);
-    // Route::post('transaksi/add-to-cart', [TransaksiController::class, 'addToCart'])->name('transaksi.add-to-cart');
+    Route::resource('pelanggan', PelangganController::class);
     Route::get('transaksi/{id}/edit', [TransaksiController::class, 'edit'])->name('transaksi.edit');
     Route::post('detail-transaksi/create', [DetailTransaksiController::class, 'create'])->name('detail-transaksi.create');
     Route::get('detail-transaksi/destroy', [DetailTransaksiController::class, 'destroy'])->name('detail-transaksi.destroy');

@@ -3,8 +3,20 @@
 @section('title', 'Kasir | Edit Produk')
 
 @section('content')
+
     <a href="{{ route('produk.index') }}" class="btn btn-primary mb-3 me-3"><i class="fa fa-angle-left"></i>
         Kembali</a>
+    @if (session('success'))
+        <h6 class="alert alert-success text-white">
+            {{ session('success') }}
+        </h6>
+    @endif
+
+    @if (session('error'))
+        <h6 class="alert alert-danger text-white">
+            {{ session('error') }}
+        </h6>
+    @endif
     <h4>Edit Produk</h4>
     <div class="card card-body">
         <div class="table-responsive">

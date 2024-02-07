@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Alert;
 use App\Models\Produk;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert as FacadesAlert;
 
 class ProdukController extends Controller
 {
@@ -41,7 +43,6 @@ class ProdukController extends Controller
         $produk->stok = $request->input('stok');
 
         $produk->save();
-
         if ($produk->save()) {
             return redirect()->route('produk.index')->with('success', 'Data produk berhasil ditambahkan');
         } else {
@@ -81,7 +82,6 @@ class ProdukController extends Controller
         $produk->namaProduk = $request->input('namaProduk');
         $produk->harga = $request->input('harga');
         $produk->stok = $request->input('stok');
-
         $produk->save();
         return redirect()->route('produk.index')->with('success', 'Data produk berhasil diupdate');
     }

@@ -3,7 +3,23 @@
 @section('title', 'Kasir | Tambah Transaksi')
 
 @section('content')
-    <a href="{{ route('transaksi.index') }}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Kembali</a>
+    <a href="{{ route('transaksi.index') }}" class="btn btn-primary @if ($message === '') disabled @endif"><i
+            class="fas fa-arrow-left"></i> Kembali</a>
+
+    @if ($message)
+        <h6 class="alert alert-success text-white" role="alert">
+            {{ $message }}
+            {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+        </h6>
+    @endif
+
+    @if (session('error'))
+        <h6 class="alert alert-danger text-white" role="alert">
+            {{ session('error') }}
+            {{-- <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> --}}
+        </h6>
+    @endif
+
     <div class="row">
         <div class="col-md-6">
             <div class="card">

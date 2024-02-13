@@ -7,11 +7,12 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
             target="_blank">
             {{-- <img src="{{ asset('assets/img/logo-ct.png') }}" class="navbar-brand-img h-100" alt="main_logo" />  --}}
-            <span class="ms-1 font-weight-bold text-white">Toko Serba Ada</span>
+            <h5 class="ms-1 font-weight-bold text-white text-center">Toko Serba Ada</h5>
+            <p class="ms-1 font-weight-bold text-white text-center">{{ auth()->user()->username }}</p>
         </a>
     </div>
 
-    <hr class="horizontal light mt-0 mb-2" />
+    <hr class="horizontal light mt-3 mb-2" />
 
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">

@@ -95,13 +95,20 @@ class TransaksiController extends Controller
         $subtotal = 0;
         if ($p_detail) {
             $subtotal = $qty * $p_detail->harga;
+            $p_detail->stok - $qty;
         }
 
         $transaksi = Penjualan::find($id);
 
+        $message = "";
         $pembayaran = request('dibayarkan');
         if ($pembayaran) {
             $kembalian = $pembayaran - $transaksi->totalHarga;
+            if ($kembalian < 0) {
+                return redirect()->back()->withInput()->with('error', 'Pembayaran kurang');
+            } else {
+                $message = "Pembayaran Berhasil";
+            }
         } else {
             $kembalian = 0;
         }
@@ -115,8 +122,9 @@ class TransaksiController extends Controller
             'transaksi_detail' => $transaksi_detail,
             'transaksi' => $transaksi,
             'kembalian' => $kembalian,
+            'message' => $message,
         ];
-        return view('transaksi.tambah', $data)->with('success', 'Data produk berhasil diupdate');
+        return view('transaksi.tambah', $data);
     }
 
     /**

@@ -16,19 +16,8 @@
 
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
         <ul class="navbar-nav">
-            <!-- Produk -->
-            <li class="nav-item">
-                <a class="nav-link {{ request()->route()->getName() == 'produk.index' ? 'active bg-gradient-primary' : '' }}"
-                    href="{{ route('produk.index') }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">view_in_ar</i>
-                    </div>
 
-                    <span class="nav-link-text ms-1">Produk</span>
-                </a>
-            </li>
-
-            {{-- Administrator Only --}}
+            {{-- Administrator  --}}
             @if (auth()->check() && auth()->user()->status === 'Administrator')
                 {{-- Account --}}
                 <li class="nav-item">
@@ -41,10 +30,47 @@
                         <span class="nav-link-text ms-1">Account</span>
                     </a>
                 </li>
+
+                {{-- Meja --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->route()->getName() == 'meja.index' ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ route('meja.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="bi bi-app"></i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Meja</span>
+                    </a>
+                </li>
+
+                <!-- Produk -->
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->route()->getName() == 'produk.index' ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ route('produk.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Produk</span>
+                    </a>
+                </li>
             @endif
 
-            {{-- Petugas Only --}}
-            @if (auth()->check() && auth()->user()->status === 'Petugas')
+
+            {{-- Waiter --}}
+            @if (auth()->check() && auth()->user()->status === 'Waiter')
+                <!-- Produk -->
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->route()->getName() == 'produk.index' ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ route('produk.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">view_in_ar</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Produk</span>
+                    </a>
+                </li>
+
                 {{-- Pelanggan --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->route()->getName() == 'pelanggan.index' ? 'active bg-gradient-primary' : '' }}"
@@ -57,6 +83,36 @@
                     </a>
                 </li>
 
+                {{-- Transaksi --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->route()->getName() == 'transaksi.index' ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ route('transaksi.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">receipt_long</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Transaksi</span>
+                    </a>
+                </li>
+            @endif
+
+            {{-- Kasir --}}
+            @if (auth()->check() && auth()->user()->status === 'Kasir')
+                {{-- Transaksi --}}
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->route()->getName() == 'transaksi.index' ? 'active bg-gradient-primary' : '' }}"
+                        href="{{ route('transaksi.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i class="material-icons opacity-10">receipt_long</i>
+                        </div>
+
+                        <span class="nav-link-text ms-1">Transaksi</span>
+                    </a>
+                </li>
+            @endif
+
+            {{-- Owner --}}
+            @if (auth()->check() && auth()->user()->status === 'Owner')
                 {{-- Transaksi --}}
                 <li class="nav-item">
                     <a class="nav-link {{ request()->route()->getName() == 'transaksi.index' ? 'active bg-gradient-primary' : '' }}"

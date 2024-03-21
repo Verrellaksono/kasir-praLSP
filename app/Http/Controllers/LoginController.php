@@ -26,7 +26,15 @@ class LoginController extends Controller
 
         if ($user) {
             auth()->login($user);
-            return redirect()->route('produk.index');
+            if (auth()->user()->status == 'Administrator') {
+                return redirect()->route('produk.index');
+            } elseif (auth()->user()->status == 'Waiter') {
+                return redirect()->route('produk.index');
+            } elseif (auth()->user()->status == 'Kasir') {
+                return redirect()->route('transaksi.index');
+            } elseif (auth()->user()->status == 'Owner') {
+                return redirect()->route('transaksi.index');
+            }
         } else {
             return back()->withErrors(['login' => 'Username atau password salah']);
         }

@@ -13,29 +13,45 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="row mt-2">
-                        <form action="{{ route('transaksi.create') }}" method="GET">
-                            <div class="col-md-10 d-flex">
-                                <div class="col-md-2 d-flex align-items-center">
-                                    <label for="" class="m-0 text-bold">Nama Pelanggan : </label>
-                                </div>
-                                <div class="col-md-6 d-flex align-items-center">
-                                    <select name="pelanggan_id" id="" class="form-control border ps-2">
-                                        @foreach ($pelanggans as $pelanggan)
-                                            <option value="{{ $pelanggan->id }}"
-                                                @if ($loop->first) selected @endif>
-                                                {{ $pelanggan->namaPelanggan }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                    <form action="{{ route('transaksi.create') }}" method="GET">
+                        <div class="row mt-2 d-flex justify-content-between align-items-center">
+                            <div class="col-10 d-flex justify-content-start align-items-center gap-3">
+                                @if (auth()->check() && auth()->user()->status !== 'Owner')
+                                    <div class="col d-flex justify-content=center align-items-center">
+                                        <label for="" class="m-0 text-bold">Nama Pelanggan : </label>
+                                        <select name="pelanggan_id" id="" class="form-control border ps-2">
+                                            @foreach ($pelanggans as $pelanggan)
+                                                <option value="{{ $pelanggan->id }}"
+                                                    @if ($loop->first) selected @endif>
+                                                    {{ $pelanggan->namaPelanggan }}</option>
+                                            @endforeach
+                                        </select>
 
-                                <div class="col-md-4 ms-2 d-flex align-items-center">
-                                    <button type="submit" class="btn btn-primary m-0"><i class="fas fa-plus"></i>
-                                        Kasir</button>
-                                </div>
+                                    </div>
+                                    <div class="col d-flex justify-content=center align-items-center">
+                                        <label for="" class="m-0 text-bold">Meja: </label>
+                                        <select name="meja_id" id="" class="form-control border ps-2">
+                                            @foreach ($meja as $meja)
+                                                <option value="{{ $meja->id }}"
+                                                    @if ($loop->first) selected @endif>
+                                                    {{ $meja->no_meja }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col d-flex justify-content=center align-items-center">
+                                        <button type="submit" class="btn btn-primary m-0"><i class="fas fa-plus"></i>
+                                            Order</button>
+                                    </div>
+                                @endif
                             </div>
-                        </form>
-                    </div>
+
+                            <div class="col-md-2 d-flex justify-content-end align-items-center ">
+                                <a href="{{ route('transaksi.pdf') }}" class="btn btn-outline-primary m-0"><i
+                                        class="fas fa-print"></i>
+                                    Cetak</a>
+                            </div>
+                        </div>
+                    </form>
 
                     <div class="table-responsive p-0" id="pesanan">
                         <!-- Trigger the modal with a button -->
@@ -164,11 +180,15 @@
 @section('js')
     <script>
         $(document).ready(function() {
-            $('#dt').DataTable({
+            var table = $('#example').DataTable({
                 dom: 'Bfrtip',
-                buttons: [
-                    'print'
-                ]
+                buttons: [{
+                    text: 'Generate Laporan',
+                    action: function(e, dt, button, config) {
+                        // Logic untuk generate laporan
+                        alert('Laporan berhasil digenerate!');
+                    }
+                }]
             });
         });
     </script>

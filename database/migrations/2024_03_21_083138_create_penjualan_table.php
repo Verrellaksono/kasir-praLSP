@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->dateTime('tanggalPenjualan');
             $table->integer('totalHarga');
-            $table->foreignId('pelanggan_id')->constrained()->onDelete('cascade');;
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');;
+            $table->foreignId('pelanggan_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('meja_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

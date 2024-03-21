@@ -29,9 +29,6 @@
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
     {{-- Bootstrap-icons --}}
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-icons-1.11.3/font/bootstrap-icons.css') }}">
-    {{-- DataTables --}}
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css">
 </head>
 
 <body class="g-sidenav-show  bg-gray-100">

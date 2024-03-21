@@ -32,20 +32,31 @@ class CheckRole
         switch ($role) {
             case 'Administrator':
                 $allowedRoutes = [
+                    'produk.index',
+                    'produk.store',
+                    'produk.edit',
+                    'produk.update',
+                    'produk.destroy',
                     'user.index',
                     'user.store',
                     'user.edit',
                     'user.update',
                     'user.destroy',
+                    'meja.index',
+                    'meja.store',
+                    'meja.edit',
+                    'meja.update',
+                    'meja.destroy',
                 ];
                 break;
 
-            case 'Petugas':
+            case 'Waiter':
                 $allowedRoutes = [
                     'transaksi.index',
                     'transaksi.store',
                     'transaksi.create',
                     'transaksi.edit',
+                    'transaksi.print',
                     'transaksi.update',
                     'transaksi.destroy',
                     'pelanggan.index',
@@ -55,6 +66,35 @@ class CheckRole
                     'pelanggan.destroy',
                     'detail-transaksi.create',
                     'detail-transaksi.destroy',
+                ];
+                break;
+
+            case 'Kasir':
+                $allowedRoutes = [
+                    'transaksi.index',
+                    'transaksi.store',
+                    'transaksi.create',
+                    'transaksi.edit',
+                    'transaksi.update',
+                    'transaksi.destroy',
+                    'transaksi.print',
+                    'pelanggan.index',
+                    'pelanggan.store',
+                    'pelanggan.edit',
+                    'pelanggan.update',
+                    'pelanggan.destroy',
+                    'detail-transaksi.create',
+                    'detail-transaksi.destroy',
+                ];
+                break;
+
+            case 'Owner':
+                $allowedRoutes = [
+                    'transaksi.index',
+                    'transaksi.print',
+                    'pelanggan.index',
+                    'meja.index',
+                    'pelanggan.index',
                 ];
                 break;
         }

@@ -6,8 +6,10 @@ use App\Models\Produk;
 use App\Models\Penjualan;
 use App\Models\DetailPenjualan;
 use App\Models\DetailTransaksi;
+use App\Models\Meja;
 use App\Models\Pelanggan;
 use Illuminate\Http\Request;
+use Mpdf\Mpdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Monolog\Handler\IFTTTHandler;
@@ -21,11 +23,13 @@ class TransaksiController extends Controller
     {
         $produks = Produk::all();
         $pelanggans = Pelanggan::all();
+        $meja = Meja::all();
         $penjualans = Penjualan::with('user', 'pelanggan', 'detailPenjualan.produk')->orderBy('created_at', 'desc')->get();
         $data = ([
             'produks' => $produks,
             'pelanggans' => $pelanggans,
             'penjualans' => $penjualans,
+            'meja' => $meja,
         ]);
         return view('transaksi.index', $data);
     }
@@ -36,11 +40,13 @@ class TransaksiController extends Controller
     public function create(Request $request)
     {
         $data = ([
+            'meja_id' => $request->meja_id,
             'tanggalPenjualan' => now(),
             'totalHarga' => 0,
             'pelanggan_id' => $request->pelanggan_id,
             'user_id' => auth()->user()->id,
         ]);
+        // dd($data);
         $transaksi = Penjualan::create($data);
         return redirect('transaksi/' . $transaksi->id . '/edit');
     }
@@ -141,5 +147,20 @@ class TransaksiController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function pdf()
+    {
+        $produks = Produk::all();
+        $pelanggans = Pelanggan::all();
+        $meja = Meja::all();
+        $penjualans = Penjualan::with('user', 'pelanggan', 'detailPenjualan.produk')->orderBy('created_at', 'desc')->get();
+        $data = ([
+            'produks' => $produks,
+            'pelanggans' => $pelanggans,
+            'penjualans' => $penjualans,
+            'meja' => $meja,
+        ]);
+        return view('transaksi.pdf', $data);
     }
 }
